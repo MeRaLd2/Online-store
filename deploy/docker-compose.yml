@@ -1,0 +1,16 @@
+version: '1.0'
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: postgres  # Имя вашей базы данных
+      POSTGRES_USER: postgres    # Имя пользователя базы данных
+      POSTGRES_PASSWORD: 1111  # Пароль пользователя базы данных
+    ports:
+      - "5432:5432"  # Маппинг портов (локальный порт: порт в контейнере)
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Монтирование тома для сохранения данных
+
+volumes:
+  postgres_data:

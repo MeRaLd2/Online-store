@@ -1,34 +1,48 @@
-from .schemas import Product, ProductCreate, ProductUpdate
-from typing import List
+from .schemas import Product, ProductUpdate
+from sqlalchemy.orm import Session
+from .database import models
 
-products_data = []
+def get_products(db: Session, limit: int = 10, offset: int = 0):
+    return db.query(models.Product) \
+        .offset(offset) \
+        .limit(limit) \
+        .all()
 
-def get_products(limit: int = 10, offset: int = 0) -> List[Product]:
-    return products_data[offset:offset + limit]
+def get_product(db: Session, product_id: int):
+    return db.query(models.Product) \
+        .filter(models.Product.id == product_id) \
+        .first()
 
-def get_product(product_id: int) -> Product:
-    for product in products_data:
-        if product["id"] == product_id:
-            return Product(**product)
+
+def create_product(db: Session, item: Product):
+
+    db_item = models.Product(
+        id=item.id,
+        name=item.name,
+        description=item.description,
+        price=item.price
+    )
+
+    db.add(db_item)
+    db.commit()
+    db.refresh(db_item)
+
+    return item
+
+
+def update_product(db: Session, product_id: int, product_update: ProductUpdate):
+    result = db.query(models.Product) \
+        .filter(models.Product.id == product_id) \
+        .update(product_update.dict())
+    db.commit()
+
+    if result == 1:
+        return get_product(db, product_id)
     return None
 
-def create_product(product_create: ProductCreate) -> Product:
-    product_id = len(products_data) + 1
-    product = Product(id=product_id, **product_create.dict())
-    products_data.append(product.dict())
-    return product
-
-def update_product(product_id: int, product_update: ProductUpdate) -> Product:
-    for idx, product in enumerate(products_data):
-        if product["id"] == product_id:
-            updated_product = Product(id=product_id, **product_update.dict())
-            products_data[idx] = updated_product.dict()
-            return updated_product
-    return None
-
-def delete_product(product_id: int) -> Product:
-    for product in products_data:
-        if product["id"] == product_id:
-            deleted_product = products_data.pop(products_data.index(product))
-            return Product(**deleted_product)
-    return None
+def delete_product(db: Session, product_id: int):
+    result = db.query(models.Product) \
+        .filter(models.Product.id == product_id) \
+        .delete()
+    db.commit()
+    return result == 1

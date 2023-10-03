@@ -7,6 +7,9 @@ class Product(BaseModel):
     description: str
     price: float
 
+    class Config:
+        from_attributes = True
+
 class ProductCreate(BaseModel):
     name: str
     description: str
