@@ -10,3 +10,4 @@
 
 - uvicorn app:app --port 8001 --reload - запуск сервиса с помощью Uvicorn на порту 8001 с автоматической перезагрузкой при изменении кода.
 - ./run.sh - запуск сервиса с помощью скрипта run.sh.
+- Создать файл .env в Product service и написать в нём POSTGRES_DSN=postgresql://postgres:1023@localhost:5432/postgres
