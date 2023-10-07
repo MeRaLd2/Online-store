@@ -1,6 +1,8 @@
 FROM python:3.11
 
-WORKDIR /src
+RUN direct /product-service
+
+WORKDIR /product-service
 
 COPY requirements.txt .
 
@@ -8,4 +10,6 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-CMD ["uvicorn", "app.app:app", "--host", "0.0.0.0", "--port", "8001"]
+WORKDIR app
+
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "5000"]

@@ -6,11 +6,17 @@ services:
     environment:
       POSTGRES_DB: postgres  # Имя вашей базы данных
       POSTGRES_USER: postgres    # Имя пользователя базы данных
-      POSTGRES_PASSWORD: 1111  # Пароль пользователя базы данных
+      POSTGRES_PASSWORD: 1023  # Пароль пользователя базы данных
     ports:
       - "5432:5432"  # Маппинг портов (локальный порт: порт в контейнере)
     volumes:
       - postgres_data:/var/lib/postgresql/data  # Монтирование тома для сохранения данных
+  product-service:
+    image: product-service:latest
+    ports:
+    - "5000:5000"
+    environment:
+      PG_DSN: ${POSTGRES_DSN}
 
 volumes:
   postgres_data:
