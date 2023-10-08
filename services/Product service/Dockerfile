@@ -1,15 +1,13 @@
 FROM python:3.11
 
-RUN direct /product-service
+WORKDIR /src
 
-WORKDIR /product-service
+COPY requirements.txt /src/requirements.txt
 
-COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN pip install -r requirements.txt
+COPY ./app /src/app
 
-COPY . .
+EXPOSE 5001
 
-WORKDIR app
-
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "5000"]
+CMD ["uvicorn", "app.app:app", "--host", "0.0.0.0", "--port", "5001"]
