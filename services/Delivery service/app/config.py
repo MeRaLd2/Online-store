@@ -28,10 +28,9 @@ class Config(BaseSettings):
     )
 
     class Config:
-        env_file = ".env"  # Указываем имя файла .env
-        extra = Extra.allow  # Разрешаем дополнительные входные данные
+        env_file = ".env"
+        extra = Extra.allow
 
-# Создаем экземпляр конфигурации
 def load_config() -> Config:
     return Config()
 

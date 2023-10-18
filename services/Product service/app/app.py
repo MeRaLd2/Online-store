@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 
 cfg: config.Config = config.load_config()
 
-SessionLocal = DB_INITIALIZER.init_database(cfg.POSTGRES_DSN)
+SessionLocal = DB_INITIALIZER.init_database(str(cfg.POSTGRES_DSN))
 
 
 app = FastAPI(title='Сервис продуктов онлайн-магазина')
@@ -23,6 +23,10 @@ def get_db():
 
 @app.post("/products/", response_model=schemas.Product)
 def create_product(product: schemas.Product, db: Session = Depends(get_db)):
+    existing_product = crud.get_product(db, product.id)  # Замените на соответствующий метод
+
+    if existing_product:
+        raise HTTPException(status_code=400, detail="Такой продукт уже существует")
     return crud.create_product(db, product)
 
 
