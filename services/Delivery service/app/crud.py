@@ -58,48 +58,28 @@ def delete_delivery(db: Session, delivery_id: int):
     return result == 1
 
 
-def get_deliveriesgeo(db: Session, deliveries_query: DeliveryQuery):
-    class DeliverySpecification:
-        def __init__(self):
-            self.filters = []
-            self.sorting = []
-
-        def by_location(self, latitude, longitude, radius):
-            if latitude is not None and longitude is not None and radius is not None:
-                location = func.ST_GeogFromText(f'POINT({latitude} {longitude})', type_=Geometry)
-                self.filters.append(func.ST_DWithin(models.Delivery.location, location, radius))
-                self.sorting.append(func.ST_Distance(models.Delivery.location, location))
-            return self
-
-        def by_city(self, city_name, radius):
-            if city_name:
-                city_coords = geocode_city(city_name)
-                if city_coords is not None:
-                    latitude = city_coords["lat"]
-                    longitude = city_coords["lng"]
-                    location = func.ST_GeogFromText(f'POINT({latitude} {longitude})', type_=Geometry)
-                    self.filters.append(func.ST_DWithin(models.Delivery.location, location, radius))
-                    self.sorting.append(func.ST_Distance(models.Delivery.location, location))
-            return self
-
-        def build_filters(self):
-            return self.filters
-
-        def build_sorting(self):
-            return self.sorting
+def get_deliveries(db: Session, delivery_query: DeliveryQuery):
 
     query = db.query(models.Delivery)
 
-    if deliveries_query.city_name is not None and deliveries_query.radius is not None:
-        delivery_spec = DeliverySpecification().by_city(deliveries_query.city_name, deliveries_query.radius)
-        query = query.filter(*delivery_spec.build_filters()).order_by(*delivery_spec.build_sorting())
+    if delivery_query.city_name is not None and delivery_query.radius is not None:
+        city_coords = geocode_city(delivery_query.city_name)
+        if city_coords is not None:
+            latitude = city_coords["lat"]
+            longitude = city_coords["lng"]
+            location = func.ST_GeogFromText(f'POINT({latitude} {longitude})', type_=Geometry)
+            query = query.filter(func.ST_DWithin(models.Delivery.location, location, delivery_query.radius))
+            query = query.order_by(func.ST_Distance(models.Delivery.location, location))
 
-    if deliveries_query.city_name is None and deliveries_query.latitude is not None and deliveries_query.longitude \
-            is not None and deliveries_query.radius is not None:
-        delivery_spec = DeliverySpecification().by_location(deliveries_query.latitude, deliveries_query.longitude, deliveries_query.radius)
-        query = query.filter(*delivery_spec.build_filters()).order_by(*delivery_spec.build_sorting())
 
-    query = query.offset(deliveries_query.offset).limit(deliveries_query.limit)
+    if delivery_query.city_name is None and delivery_query.latitude is not None and delivery_query.longitude \
+            is not None and delivery_query.radius is not None:
+        location = func.ST_GeogFromText(f'POINT({delivery_query.latitude} {delivery_query.longitude})', type_=Geometry)
+        query = query.filter(func.ST_DWithin(models.Delivery.location, location, delivery_query.radius))
+        query = query.order_by(func.ST_Distance(models.Delivery.location, location))
+
+
+    query = query.offset(delivery_query.offset).limit(delivery_query.limit)
     delivery = query.all()
 
     return delivery

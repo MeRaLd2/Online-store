@@ -1,5 +1,4 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, JSON, Float
-from sqlalchemy.orm import relationship
 from .database import Base
 from geoalchemy2 import Geometry
 

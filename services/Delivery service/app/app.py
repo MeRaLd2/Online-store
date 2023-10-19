@@ -50,18 +50,6 @@ async def get_delivery(
         return item
     return JSONResponse(status_code=404, content={"message": "Доставка не найдена"})
 
-@app.get(
-    "/deliveries",
-    summary='Возвращает список доставок',
-    response_model=list[Delivery]
-)
-async def get_deliveries(
-        limit: int = 10,
-        offset: int = 0,
-        db: Session = Depends(get_db)
-    ) -> typing.List[Delivery]:
-    return crud.get_deliveries(db, limit=limit, offset=offset)
-
 @app.post(
     "/deliveries",
     status_code=201,
@@ -112,7 +100,7 @@ async def update_delivery(
     summary='Возвращает список точек доставок',
     response_model=list[Delivery]
 )
-async def get_apartments(
+async def get_deliveries(
         city_name: str = Query(None, description="Город"),
         limit: int = Query(10, description="Макс. количество записей"),
         offset: int = Query(0, description="Смещение записей"),
@@ -126,11 +114,11 @@ async def get_apartments(
         limit=limit,
         offset=offset,
         city_name=city_name,
-        radius=radius,
+        radius=radius*1000,
         latitude=latitude,
         longitude=longitude
     )
 
-    delivery = crud.get_deliveriesgeo(db, delivery_query)
+    delivery = crud.get_deliveries(db, delivery_query)
 
     return delivery
