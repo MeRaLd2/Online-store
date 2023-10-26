@@ -8,6 +8,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY ./app /src/app
 
-EXPOSE 5002
+ARG APP_IP
+ARG APP_PORT
 
-CMD ["uvicorn", "app.app:app", "--host", "0.0.0.0", "--port", "5002"]
+ENV APP_IP $APP_IP
+ENV APP_PORT $APP_PORT
+
+EXPOSE $APP_PORT
+
+CMD ["uvicorn", "app.app:app", "--host", "$APP_IP", "--port", "$APP_PORT"]
