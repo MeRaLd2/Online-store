@@ -12,6 +12,19 @@ services:
     volumes:
       - /path/to/local/data:/var/lib/postgresql/data 
 
+  policy-enforcement-service:
+    image: policy-enforcement-service:1.0
+    build:
+      context: ../services/policy-enforcement-service
+      dockerfile: ./Dockerfile
+    ports:
+      - "5100:5100"
+    volumes:
+      - policy-enforcement-data:/mnt/
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+      POLICIES_CONFIG_PATH: ${POLICIES_CONFIG_PATH}
+
   product-service:
     image: product-service:1.0
     ports:
@@ -39,3 +52,9 @@ services:
 
 volumes:
   postgres_data:
+  policy-enforcement-data:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./policy-enforcement-data
