@@ -27,6 +27,9 @@ services:
 
   product-service:
     image: product-service:1.0
+    build:
+      context: ../services/product-service
+      dockerfile: ./Dockerfile
     ports:
       - "5001:5001"
     environment:
@@ -34,6 +37,9 @@ services:
 
   delivery-service:
     image: delivery-service:1.0
+    build:
+      context: ../services/delivery-service
+      dockerfile: ./Dockerfile
     ports:
       - "5002:5002"
     environment:
@@ -41,6 +47,9 @@ services:
 
   user-service:
     image: user-service:1.0
+    build:
+      context: ../services/user-service
+      dockerfile: ./Dockerfile
     ports:
       - "5003:5003"
     environment:
