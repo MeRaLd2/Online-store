@@ -1,15 +1,12 @@
 services:
-    - name: favorite-service
-      entrypoint: http://favorite-service:5001/
+    - name: product-service
+      entrypoint: http://product-service:5001/
       inject_token_in_swagger: True
-    - name: apartment-service
-      entrypoint: http://apartment-service:5002/
+    - name: delivery-service
+      entrypoint: http://delivery-service:5002/
       inject_token_in_swagger: True
     - name: user-service
       entrypoint: http://user-service:5003/
-      inject_token_in_swagger: True
-    - name: review-service
-      entrypoint: http://review-service:5004/
       inject_token_in_swagger: True
 model: |
     [request_definition]
@@ -25,40 +22,32 @@ model: |
     m = eval(p.sub_rule) && keyMatch(r.obj, p.obj) && regexMatch(r.act, p.act)
 policies:
       #group_id
-      #1 - Покупатель
-      #2 - Арендадатель
+      #1 - Покупатель услуг
+      #2 - Магазин
       #3 - Админ
 
-      #Покупатель
-    - service: favorite-service
+      #Покупатель услуг
+    - service: product-service
       rule: r.sub.group_id == 1
-      resource: /favorites*
+      resource: /products*
       methods: (GET)|(POST)|(PUT)|(DELETE)
-    - service: apartment-service
+    - service: delivery-service
       rule: r.sub.group_id == 1
-      resource: /apartments*
+      resource: /deliveries*
       methods: GET
     - service: user-service
       rule: r.sub.group_id == 1
       resource: /users/*
       methods: GET
-    - service: review-service
-      rule: r.sub.group_id == 1
-      resource: /reviews*
-      methods: (GET)|(POST)|(PUT)|(DELETE)
 
-      #Арендадатель
-    - service: apartment-service
+      #Магазин
+    - service: delivery-service
       rule: r.sub.group_id == 2
-      resource: /apartments*
+      resource: /deliveries*
       methods: (GET)|(POST)|(PUT)|(DELETE)
     - service: user-service
       rule: r.sub.group_id == 2
       resource: /users/*
-      methods: GET
-    - service: review-service
-      rule: r.sub.group_id == 2
-      resource: /reviews*
       methods: GET
 
       #Админ
@@ -66,20 +55,16 @@ policies:
       rule: r.sub.group_id == 3
       resource: /favorites*
       methods: (GET)|(POST)|(PUT)|(DELETE)
-    - service: apartment-service
+    - service: delivery-service
       rule: r.sub.group_id == 3
-      resource: /apartments*
+      resource: /deliveries*
       methods: (GET)|(POST)|(PUT)|(DELETE)
     - service: user-service
       rule: r.sub.group_id == 3
       resource: /users/*
       methods: (GET)|(POST)|(PUT)|(DELETE)
-    - service: review-service
-      rule: r.sub.group_id == 3
-      resource: /reviews*
-      methods: (GET)|(POST)|(PUT)|(DELETE)
 
-      #общее
+      #Общее
     - service: user-service
       resource: /auth/*
       methods: POST
@@ -88,4 +73,3 @@ policies:
       white_list: true
       resource: /groups*
       methods: (GET)|(POST)|(PUT)|(DELETE)
-  
