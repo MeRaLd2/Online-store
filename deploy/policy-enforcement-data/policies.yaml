@@ -25,11 +25,11 @@ model: |
     m = eval(p.sub_rule) && keyMatch(r.obj, p.obj) && regexMatch(r.act, p.act)
 policies:
       #group_id
-      #1 - Покупатель услуг
+      #1 - Покупатель
       #2 - Арендадатель
       #3 - Админ
 
-      #Покупатель услуг
+      #Покупатель
     - service: favorite-service
       rule: r.sub.group_id == 1
       resource: /favorites*
