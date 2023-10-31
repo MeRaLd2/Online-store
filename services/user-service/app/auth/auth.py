@@ -34,4 +34,3 @@ class AuthInitializer():
 
     def get_fastapi_users(self) -> FastAPIUsers[User, UUID]:
         return FastAPIUsers[User, uuid.UUID](get_user_manager, [self.get_auth_backend()])
-

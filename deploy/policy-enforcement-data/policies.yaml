@@ -88,3 +88,4 @@ policies:
       white_list: true
       resource: /groups*
       methods: (GET)|(POST)|(PUT)|(DELETE)
+    
