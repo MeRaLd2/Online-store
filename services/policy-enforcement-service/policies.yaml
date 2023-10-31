@@ -1,12 +1,12 @@
 services:
     - name: product-service
-      entrypoint: http://product-service:5001/
+      entrypoint: http://127.0.0.1:5001/
       inject_token_in_swagger: True
     - name: delivery-service
-      entrypoint: http://delivery-service:5002/
+      entrypoint: http://127.0.0.1:5002/
       inject_token_in_swagger: True
     - name: user-service
-      entrypoint: http://user-service:5003/
+      entrypoint: http://127.0.0.1:5003/
       inject_token_in_swagger: True
 model: |
     [request_definition]
