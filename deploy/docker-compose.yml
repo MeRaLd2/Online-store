@@ -13,7 +13,6 @@ services:
       - /path/to/local/data:/var/lib/postgresql/data 
 
   policy-enforcement-service:
-    image: policy-enforcement-service:1.0
     build:
       context: ../services/policy-enforcement-service
       dockerfile: ./Dockerfile
@@ -26,7 +25,6 @@ services:
       POLICIES_CONFIG_PATH: ${POLICIES_CONFIG_PATH}
 
   product-service:
-    image: product-service:1.0
     build:
       context: ../services/product-service
       dockerfile: ./Dockerfile
@@ -36,7 +34,6 @@ services:
       PG_DSN: ${POSTGRES_DSN}
 
   delivery-service:
-    image: delivery-service:1.0
     build:
       context: ../services/delivery-service
       dockerfile: ./Dockerfile
@@ -46,7 +43,6 @@ services:
       PG_DSN: ${POSTGRES_DSN}
 
   user-service:
-    image: user-service:1.0
     build:
       context: ../services/user-service
       dockerfile: ./Dockerfile

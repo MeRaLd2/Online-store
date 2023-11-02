@@ -23,8 +23,7 @@ model: |
 policies:
       #group_id
       #1 - Покупатель услуг
-      #2 - Магазин
-      #3 - Админ
+      #2 - Админ
 
       #Покупатель услуг
     - service: product-service
@@ -37,16 +36,6 @@ policies:
       methods: GET
     - service: user-service
       rule: r.sub.group_id == 1
-      resource: /users/*
-      methods: GET
-
-      #Магазин
-    - service: delivery-service
-      rule: r.sub.group_id == 2
-      resource: /deliveries*
-      methods: (GET)|(POST)|(PUT)|(DELETE)
-    - service: user-service
-      rule: r.sub.group_id == 2
       resource: /users/*
       methods: GET
 
@@ -69,7 +58,3 @@ policies:
       resource: /auth/*
       methods: POST
       white_list: true
-    - service: user-service
-      white_list: true
-      resource: /groups*
-      methods: (GET)|(POST)|(PUT)|(DELETE)
