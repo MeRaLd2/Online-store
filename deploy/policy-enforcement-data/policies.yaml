@@ -29,7 +29,7 @@ policies:
     - service: product-service
       rule: r.sub.group_id == 1
       resource: /products*
-      methods: (GET)|(POST)|(PUT)|(DELETE)
+      methods: GET
     - service: delivery-service
       rule: r.sub.group_id == 1
       resource: /deliveries*
@@ -41,16 +41,20 @@ policies:
 
       #Админ
     - service: favorite-service
-      rule: r.sub.group_id == 3
+      rule: r.sub.group_id == 2
       resource: /favorites*
       methods: (GET)|(POST)|(PUT)|(DELETE)
     - service: delivery-service
-      rule: r.sub.group_id == 3
+      rule: r.sub.group_id == 2
       resource: /deliveries*
       methods: (GET)|(POST)|(PUT)|(DELETE)
     - service: user-service
-      rule: r.sub.group_id == 3
+      rule: r.sub.group_id == 2
       resource: /users/*
+      methods: (GET)|(POST)|(PUT)|(DELETE)
+    - service: user-service
+      rule: r.sub.group_id == 2
+      resource: /groups*
       methods: (GET)|(POST)|(PUT)|(DELETE)
 
       #Общее
