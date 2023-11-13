@@ -1,21 +1,30 @@
 from pydantic import BaseModel
+from typing import List
 
-
-class Basket(BaseModel):
+class Products(BaseModel):
     id: int
     name: str
     description: str
     price: float
+    amount: int
 
     class Config:
         from_attributes = True
 
-class BasketCreate(BaseModel):
+class ProductsCreate(BaseModel):
     name: str
     description: str
     price: float
+    amount: int
 
-class BasketUpdate(BaseModel):
+class ProductsUpdate(BaseModel):
     name: str
     description: str
     price: float
+    amount: int
+
+
+class Basket(BaseModel):
+    id: int
+    products: List[Products]
+    mail: str
