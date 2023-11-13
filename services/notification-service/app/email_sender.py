@@ -23,24 +23,16 @@ class EmailSender():
 
     def send_message(self, subject, message, recipient_email):
         try:
-            # Создайте объект сообщения
             msg = MIMEMultipart()
             msg["From"] = self.smtp_username
             msg["To"] = recipient_email
             msg["Subject"] = subject
 
-            # Добавьте текст сообщения
             msg.attach(MIMEText(message, "plain"))
 
-            # Отправьте сообщение
             self.server.sendmail(self.smtp_username, recipient_email, msg.as_string())
-
-            # Завершите соединение
-            self.server.quit()
 
             logger.info("Сообщение отправлено успешно.")
 
         except:
             logger.info("Сообщение не было отправленно")
-
-

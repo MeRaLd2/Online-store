@@ -1,5 +1,5 @@
 from pydantic_settings import BaseSettings
-from pydantic import PostgresDsn, Field, Extra
+from pydantic import PostgresDsn, Field, Extra, AmqpDsn
 
 
 class Config(BaseSettings):
@@ -10,7 +10,7 @@ class Config(BaseSettings):
     )
 
     PRODUCT_ENTRYPOINT: str = Field(
-        default='http://localhost:5007/bakets/',
+        default='http://localhost:5001/',
         env='PRODUCT_ENTRYPOINT',
         alias='PRODUCT_ENTRYPOINT'
     )

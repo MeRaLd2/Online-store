@@ -1,12 +1,10 @@
 import schemas
 
-
 def reservation_notification_message(
-        message: schemas.ReservationNotification
+        message: schemas.Notification
 ) -> str:
-    msg = (f'Вы арендовали {message.apartment_data.title} \n'\
-           f'по адрессу {message.apartment_data.address} \n'\
-           f'с {message.arrival_date} '\
-           f'по {message.departure_date} ')
+    msg = (f'Совершена покупка {message.products[0].name} \n'\
+           f'{message.products[0].description} \n'\
+           f'За {message.products[0].price} \n')
 
     return msg

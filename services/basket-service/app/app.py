@@ -6,8 +6,15 @@ import typing
 import logging
 from .database import DB_INITIALIZER
 from sqlalchemy.orm import Session
+from . import broker
 
 cfg: config.Config = config.load_config()
+
+message_producer = broker.MessageProducer(
+    dsn=cfg.RABBITMQ_DSN.unicode_string(),
+    exchange_name=cfg.EXCHANGE_NAME,
+    queue_name=cfg.QUEUE_NAME,
+)
 
 SessionLocal = DB_INITIALIZER.init_database(str(cfg.POSTGRES_DSN))
 
@@ -22,12 +29,13 @@ def get_db():
         db.close()
 
 @app.post("/baskets/", response_model=schemas.Basket)
-def create_basket(basket: schemas.Basket, db: Session = Depends(get_db)):
+async def create_basket(basket: schemas.Basket, db: Session = Depends(get_db)):
     existing_basket = crud.get_basket(db, basket.id)
 
     if existing_basket:
         raise HTTPException(status_code=400, detail="Такой продукт уже существует")
-    return crud.create_basket(db, basket)
+    basket = await crud.create_basket(db, basket, message_producer)
+    return basket
 
 
 @app.get("/baskets/{basket_id}", response_model=schemas.Basket)
@@ -43,7 +51,7 @@ def read_baskets(limit: int = 10, offset: int = 0, db: Session = Depends(get_db)
     return crud.get_baskets(db, limit=limit, offset=offset)
 
 @app.put("/baskets/{basket_id}", response_model=schemas.Basket)
-def update_basket(basket_id: int, basket: schemas.BasketUpdate, db: Session = Depends(get_db)):
+def update_basket(basket_id: int, basket: schemas.Basket, db: Session = Depends(get_db)):
     updated_basket = crud.update_basket(db, basket_id, basket)
     if updated_basket is None:
         raise HTTPException(status_code=404, detail="Продукт не найден")

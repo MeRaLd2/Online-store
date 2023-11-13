@@ -1,21 +1,20 @@
-from datetime import datetime
 from pydantic import BaseModel
+from typing import List
 
-
-class ApartmentData(BaseModel):
-    title: str
-    address: str
-
-    class Config:
-        from_attributes = True
-
-
-class ReservationNotification(BaseModel):
-    email: str
-    arrival_date: datetime
-    departure_date: datetime
-    apartment_data: ApartmentData
+class Product(BaseModel):
+    id: int
+    name: str
+    description: str
+    price: float
 
     class Config:
         from_attributes = True
 
+class Basket(BaseModel):
+    id: int
+    products_id: List[int]
+    mail: str
+
+class Notification(BaseModel):
+    mail: str
+    products: List[Product]
