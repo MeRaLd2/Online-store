@@ -1,9 +1,10 @@
 import asyncio
-from .schemas import Basket, BasketUpdate
+from .schemas import Basket, Product, Products
 from sqlalchemy.orm import Session
 from .database import models
 import aiohttp
 from . import config
+from typing import List
 
 cfg: config.Config = config.load_config()
 
@@ -24,12 +25,16 @@ async def fetch_product_data(product_id):
             product_data = await response.json()
     return product_data
 
-async def fetch_multiple_product_data(product_ids):
-    product_data_list = []
+async def fetch_multiple_product_data(product_ids) -> List[Product]:
     async with aiohttp.ClientSession() as session:
-        tasks = [fetch_product_data(product_id, session) for product_id in product_ids]
+        tasks = [fetch_single_product_data(session, product_id) for product_id in product_ids]
         product_data_list = await asyncio.gather(*tasks)
     return product_data_list
+
+async def fetch_single_product_data(session, product_id):
+    async with session.get(f"{cfg.PRODUCT_SERVICE_ENTRYPOINT}apartments/{product_id}") as response:
+        product_data = await response.json()
+    return product_data
 
 async def fetch_products_data(products_id):
     async with aiohttp.ClientSession() as session:
@@ -38,14 +43,16 @@ async def fetch_products_data(products_id):
     return products_data
 
 
-def create_basket(db: Session, item: Basket):
+async def create_basket(db: Session, item: Basket):
 
     db_item = models.Basket(
         id=item.id,
-        name=item.name,
-        description=item.description,
-        price=item.price
+        mail=item.mail,
+        products_id=item.products_id
     )
+
+    products = await fetch_multiple_product_data(item.products_id)
+    products = Products(**products)
 
     db.add(db_item)
     db.commit()

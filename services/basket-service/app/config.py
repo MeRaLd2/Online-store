@@ -9,22 +9,28 @@ class Config(BaseSettings):
         alias='POSTGRES_DSN'
     )
 
-    POSTGRES_PASSWORD: str = Field(
-        default='1023',
-        env='POSTGRES_PASSWORD',
-        alias='POSTGRES_PASSWORD'
+    PRODUCT_ENTRYPOINT: str = Field(
+        default='http://localhost:5007/bakets/',
+        env='PRODUCT_ENTRYPOINT',
+        alias='PRODUCT_ENTRYPOINT'
     )
 
-    POSTGRES_USER: str = Field(
-        default='postgres',
-        env='POSTGRES_USER',
-        alias='POSTGRES_USER'
+    RABBITMQ_DSN: AmqpDsn = Field(
+        default='amqp://guest:guest@localhost//',
+        env='RABBITMQ_DSN',
+        alias='RABBITMQ_DSN'
     )
 
-    POSTGRES_DB: str = Field(
-        default='postgres',
-        env='POSTGRES_DB',
-        alias='POSTGRES_DB'
+    QUEUE_NAME: str = Field(
+        default='notification',
+        env='QUEUE_NAME',
+        alias='QUEUE_NAME'
+    )
+
+    EXCHANGE_NAME: str = Field(
+        default='notification',
+        env='EXCHANGE_NAME',
+        alias='EXCHANGE_NAME'
     )
 
     class Config:
