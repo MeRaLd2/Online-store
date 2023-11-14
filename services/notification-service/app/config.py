@@ -1,7 +1,6 @@
 from pydantic_settings import BaseSettings
 from pydantic import Field, Extra, AmqpDsn
 
-
 class Config(BaseSettings):
 
     SMTP_SERVER: str = Field(

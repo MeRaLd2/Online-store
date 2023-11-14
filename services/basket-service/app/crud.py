@@ -33,21 +33,13 @@ async def fetch_single_product_data(session, product_id):
         product_data = await response.json()
     return product_data
 
-async def create_basket(db: Session, item: Basket, msg_prod: MessageProducer):
+async def create_basket(db: Session, item: Basket):
 
     db_item = models.Basket(
         id=item.id,
         mail=item.mail,
         products_id=item.products_id
     )
-
-    products = await fetch_multiple_product_data(item.products_id)
-    notification = Notification(
-        mail=item.mail,
-        products=products
-    )
-
-    msg_prod.send_message(notification.json())
 
     db.add(db_item)
     db.commit()
@@ -72,3 +64,15 @@ def delete_basket(db: Session, basket_id: int):
         .delete()
     db.commit()
     return result == 1
+
+async def upload_order(db: Session, basket_id: int, msg_prod: MessageProducer):
+    basket = get_basket(db, basket_id)
+
+    products = await fetch_multiple_product_data(basket.products_id)
+    notification = Notification(
+        mail=basket.mail,
+        products=products
+    )
+
+    msg_prod.send_message(notification.json())
+    return basket

@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from typing import List
 
 class Product(BaseModel):
@@ -13,8 +13,8 @@ class Product(BaseModel):
 class Basket(BaseModel):
     id: int
     products_id: List[int]
-    mail: str
+    mail: EmailStr
 
 class Notification(BaseModel):
-    mail: str
+    mail: EmailStr
     products: List[Product]

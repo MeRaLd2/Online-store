@@ -5,21 +5,19 @@ from logging import getLogger
 
 logger = getLogger("notification-service")
 
-class EmailSender():
+
+class Mail():
     def __init__(self, smtp_username, smtp_password, smtp_server="smtp.gmail.com", smtp_port=587):
         self.smtp_username = smtp_username
-        self.smtp_password = smtp_password
-        self.smtp_server = smtp_server
-        self.smtp_port = smtp_port
 
         try:
             self.server = smtplib.SMTP_SSL(smtp_server, smtp_port)
-            self.server.starttls()
             self.server.login(smtp_username, smtp_password)
 
-        except:
-            logger.info("соединение с сервером не установленно")
+            logger.info("соединение с сервером установленно")
 
+        except Exception as e:
+            logger.error(f"Ошибка при подключении к серверу: {e}")
 
     def send_message(self, subject, message, recipient_email):
         try:
@@ -33,6 +31,5 @@ class EmailSender():
             self.server.sendmail(self.smtp_username, recipient_email, msg.as_string())
 
             logger.info("Сообщение отправлено успешно.")
-
-        except:
-            logger.info("Сообщение не было отправленно")
+        except Exception as e:
+            logger.error(f"Ошибка при отправке сообщения: {e}")

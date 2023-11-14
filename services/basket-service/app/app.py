@@ -33,16 +33,22 @@ async def create_basket(basket: schemas.Basket, db: Session = Depends(get_db)):
     existing_basket = crud.get_basket(db, basket.id)
 
     if existing_basket:
-        raise HTTPException(status_code=400, detail="Такой продукт уже существует")
-    basket = await crud.create_basket(db, basket, message_producer)
+        raise HTTPException(status_code=400, detail="Такой набор продуктов уже существует")
+    basket = await crud.create_basket(db, basket)
     return basket
 
+@app.get("/uploads/{basket_id}", response_model=schemas.Basket)
+async def upload_order(basket_id: int, db: Session = Depends(get_db)):
+    uploaded_basket = await crud.upload_order(db, basket_id, message_producer)
+    if uploaded_basket is None:
+        raise HTTPException(status_code=404, detail="Набор продукт не найден")
+    return uploaded_basket
 
 @app.get("/baskets/{basket_id}", response_model=schemas.Basket)
 def read_basket(basket_id: int, db: Session = Depends(get_db)):
     basket = crud.get_basket(db, basket_id)
     if basket is None:
-        raise HTTPException(status_code=404, detail="Продукт не найден")
+        raise HTTPException(status_code=404, detail="Набор продукт не найден")
     return basket
 
 
@@ -54,12 +60,12 @@ def read_baskets(limit: int = 10, offset: int = 0, db: Session = Depends(get_db)
 def update_basket(basket_id: int, basket: schemas.Basket, db: Session = Depends(get_db)):
     updated_basket = crud.update_basket(db, basket_id, basket)
     if updated_basket is None:
-        raise HTTPException(status_code=404, detail="Продукт не найден")
+        raise HTTPException(status_code=404, detail="Набор продукт не найден")
     return updated_basket
 
 @app.delete("/baskets/{basket_id}", response_model=schemas.Basket)
 def delete_basket(basket_id: int, db: Session = Depends(get_db)):
     deleted_basket = crud.delete_basket(db, basket_id)
     if deleted_basket is None:
-        raise HTTPException(status_code=404, detail="Продукт не найден")
+        raise HTTPException(status_code=404, detail="Набор продукт не найден")
     return deleted_basket

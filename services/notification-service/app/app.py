@@ -1,8 +1,9 @@
 import json
-import config, email_sender
+import config, mail
 import logging
-import broker, schemas, notification_forms
+import broker, schemas
 from kombu import Message
+from notifications import basket_upload
 
 
 # setup logging
@@ -22,16 +23,16 @@ logger.info(
 
 consumer = broker.Consumer(str(cfg.RABBITMQ_DSN), str(cfg.QUEUE_NAME))
 
-email_send = email_sender.EmailSender(cfg.EMAIL_LOGIN, cfg.EMAIL_PASSWORD, cfg.SMTP_SERVER, cfg.SMTP_PORT)
+email_send = mail.Mail(cfg.EMAIL_LOGIN, cfg.EMAIL_PASSWORD, cfg.SMTP_SERVER, cfg.SMTP_PORT)
 
 def send_email_message(body, message: Message):
     data = json.loads(body)
 
     reservation_data = schemas.Notification(**data)
 
-    notification = notification_forms.reservation_notification_message(reservation_data)
+    notification = basket_upload(reservation_data)
 
-    email_send.send_message('Apartment rental', notification, reservation_data.mail)
+    email_send.send_message('Совершена покупка', notification, reservation_data.mail)
 
 
 consumer.add_callback(send_email_message)
