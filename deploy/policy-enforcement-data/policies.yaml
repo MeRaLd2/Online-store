@@ -15,7 +15,7 @@ services:
       entrypoint: http://favorite-service:5005/
       inject_token_in_swagger: True
     - name: basket-service
-      entrypoint: http://basket-service:5006/
+      entrypoint: http://basket-service:5007/
       inject_token_in_swagger: True
 model: |
     [request_definition]
@@ -76,6 +76,10 @@ policies:
     - service: basket-service
       rule: r.sub.group_id == 2
       resource: /baskets*
+      methods: (GET)|(POST)|(PUT)|(DELETE)
+    - service: basket-service
+      rule: r.sub.group_id == 2
+      resource: /uploads*
       methods: (GET)|(POST)|(PUT)|(DELETE)
 
       #Общее
