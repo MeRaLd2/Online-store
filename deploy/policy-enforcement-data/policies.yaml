@@ -48,8 +48,12 @@ policies:
       resource: /users/*
       methods: GET
     - service: basket-service
-      rule: r.sub.group_id == 2
+      rule: r.sub.group_id == 1
       resource: /baskets*
+      methods: (GET)|(POST)|(PUT)|(DELETE)
+    - service: basket-service
+      rule: r.sub.group_id == 1
+      resource: /uploads*
       methods: (GET)|(POST)|(PUT)|(DELETE) 
 
       #Админ
@@ -80,6 +84,10 @@ policies:
     - service: basket-service
       rule: r.sub.group_id == 2
       resource: /uploads*
+      methods: (GET)|(POST)|(PUT)|(DELETE)
+    - service: product-service
+      rule: r.sub.group_id == 2
+      resource: /products*
       methods: (GET)|(POST)|(PUT)|(DELETE)
 
       #Общее
