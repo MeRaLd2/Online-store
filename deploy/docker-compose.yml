@@ -63,7 +63,6 @@ services:
       EMAIL_LOGIN: ${EMAIL_LOGIN}
       SMTP_PORT: ${SMTP_PORT}
       SMTP_SERVER: ${SMTP_SERVER}
-      IS_SMPT_SSL: ${IS_SMPT_SSL}
 
   favorite-service:
     build:
