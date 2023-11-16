@@ -50,7 +50,7 @@ services:
 
   notification-service:
     build:
-      context: ../Services/notification-service
+      context: ../services/notification-service
       dockerfile: ./Dockerfile
     ports:
       - "5006:5006"
