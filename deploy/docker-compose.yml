@@ -33,6 +33,16 @@ services:
       MONGO_USER: ${MONGO_USER}
       MONGO_PASSWORD: ${MONGO_PASSWORD}
 
+  tests:
+    build:
+      context: ../tests
+      dockerfile: ./Dockerfile
+    depends_on:
+      - favorite-service
+    environment:
+      POSTGRES_DSN: ${POSTGRES_DSN}
+      FAVORITE_SERVICE_ENTRYPOINT: ${FAVORITE_SERVICE_ENTRYPOINT}    
+
   basket-service:
     build:
       context: ../services/basket-service

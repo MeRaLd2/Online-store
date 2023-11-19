@@ -8,16 +8,10 @@ class Config(BaseSettings):
         alias='POSTGRES_DSN'
     )
 
-    POLICY_SERVICE_ENTRYPOINT: str = Field(
-        default='http://localhost:5100/',
-        env='POLICY_SERVICE_ENTRYPOINT',
-        alias='POLICY_SERVICE_ENTRYPOINT'
-    )
-
-    APARTMENT_SERVICE_ENTRYPOINT: str = Field(
+    FAVORITE_SERVICE_ENTRYPOINT: str = Field(
         default='http://favorite-service:5005/',
-        env='APARTMENT_SERVICE_ENTRYPOINT',
-        alias='APARTMENT_SERVICE_ENTRYPOINT'
+        env='FAVORITE_SERVICE_ENTRYPOINT',
+        alias='FAVORITE_SERVICE_ENTRYPOINT'
     )
 
     class Config:
