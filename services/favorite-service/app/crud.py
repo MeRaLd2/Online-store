@@ -22,7 +22,7 @@ def add_favorite_item(db: Session, item: FavoriteItem):
         id=item.id,
         name=item.name,
         description=item.description,
-        apartment_id=item.apartment_id
+        product_id=item.product_id
     )
 
     db.add(db_item)
