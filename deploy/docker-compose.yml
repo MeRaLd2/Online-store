@@ -10,7 +10,7 @@ services:
     ports:
       - 5432:5432  
     volumes:
-      - /path/to/local/data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
 
   rabbitmq:
     image: "rabbitmq:3-management"
@@ -39,9 +39,11 @@ services:
       dockerfile: ./Dockerfile
     depends_on:
       - favorite-service
+      - feedback-service
     environment:
       POSTGRES_DSN: ${POSTGRES_DSN}
-      FAVORITE_SERVICE_ENTRYPOINT: ${FAVORITE_SERVICE_ENTRYPOINT}    
+      FAVORITE_SERVICE_ENTRYPOINT: ${FAVORITE_SERVICE_ENTRYPOINT}
+      FEEDBACK_SERVICE_ENTRYPOINT: ${FEEDBACK_SERVICE_ENTRYPOINT}   
 
   basket-service:
     build:

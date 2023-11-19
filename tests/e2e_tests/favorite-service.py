@@ -5,7 +5,7 @@ from pydantic import BaseModel
 import config
 
 FAVORITE_DELETED_MESSAGE = {"message": "Item successfully deleted"}
-FAVORITE_NOT_FOUND_MESSAGE = {"detail": "Item not found"}
+FAVORITE_NOT_FOUND_MESSAGE = {"detail": "Not Found"}
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -29,20 +29,6 @@ class FavoriteItem(BaseModel):
     description: str
     product_id: int
 
-favorite_items = [
-    {
-        "id": "1",
-        "name": "Imya1",
-        "description": "Opisanie1",
-        "product_id": "1",
-    },
-    {
-        "id": "2",
-        "name": "Imya2",
-        "description": "Opisanie2",
-        "product_id": "2",
-    },
-]
 
 class TestCase(unittest.TestCase):
     def _create_favorite_item(self, payload: FavoriteItem) -> FavoriteItem:
