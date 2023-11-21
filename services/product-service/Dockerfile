@@ -2,6 +2,8 @@ FROM python:3.11
 
 WORKDIR /src
 
+RUN pip install --upgrade pip
+
 COPY requirements.txt /src/requirements.txt
 
 RUN pip install --no-cache-dir -r requirements.txt
