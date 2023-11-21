@@ -1,3 +1,6 @@
-from .app import app
+import sys
 
-__all__ = [app]
+if 'test' not in sys.argv[0]:
+    from app.app import app
+
+    __all__= [app]

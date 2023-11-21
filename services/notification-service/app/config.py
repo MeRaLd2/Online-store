@@ -16,13 +16,13 @@ class Config(BaseSettings):
     )
 
     EMAIL_LOGIN: str = Field(
-        default='EMAIL_LOGIN',
+        default='mail',
         env='EMAIL_LOGIN',
         alias='EMAIL_LOGIN'
     )
 
     EMAIL_PASSWORD: str = Field(
-        default='EMAIL_PASSWORD',
+        default='password',
         env='EMAIL_PASSWORD',
         alias='EMAIL_PASSWORD'
     )
@@ -47,4 +47,3 @@ class Config(BaseSettings):
 # Создаем экземпляр конфигурации
 def load_config() -> Config:
     return Config()
-
