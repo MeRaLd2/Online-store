@@ -2,8 +2,6 @@ from typing import List
 from fastapi import FastAPI, Depends, HTTPException
 from app import schemas
 from . import crud, config
-import typing
-import logging
 from .database import DB_INITIALIZER
 from sqlalchemy.orm import Session
 
