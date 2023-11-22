@@ -60,7 +60,8 @@ async def on_startup():
 
 @app.post(
     "/groups", status_code=201, response_model=schemas.GroupRead,
-    summary='Создает новую группу'
+    summary='Создает новую группу',
+    tags = ['users']
 )
 async def add_group(
         group: schemas.GroupCreate,
@@ -72,7 +73,8 @@ async def add_group(
 @app.get(
     "/groups",
     summary='Возвращает список групп',
-    response_model=list[schemas.GroupRead]
+    response_model=list[schemas.GroupRead],
+    tags = ['users']
 )
 async def get_groups(
         session: AsyncSession = Depends(database.get_async_session),
@@ -82,7 +84,11 @@ async def get_groups(
     return await crud.get_groups(session, skip, limit)
 
 
-@app.get("/groups/{group_id}", summary='Возвращает информацию о группе')
+@app.get(
+    "/groups/{group_id}",
+    summary='Возвращает информацию о группе',
+    tags = ['users']
+)
 async def get_group(
         group_id: int, session: AsyncSession = Depends(database.get_async_session)
 ) -> schemas.GroupRead:
@@ -92,7 +98,11 @@ async def get_group(
     return JSONResponse(status_code=404, content={"message": "Item not found"})
 
 
-@app.put("/groups/{group_id}", summary='Обновляет информацию о группе')
+@app.put(
+    "/groups/{group_id}",
+    summary='Обновляет информацию о группе',
+    tags = ['users']
+)
 async def update_group(
         group_id: int,
         group: schemas.GroupUpdate,
@@ -104,7 +114,11 @@ async def update_group(
     return JSONResponse(status_code=404, content={"message": "Item not found"})
 
 
-@app.delete("/groups/{group_id}", summary='Удаляет информацию о группе')
+@app.delete(
+    "/groups/{group_id}",
+    summary='Удаляет информацию о группе',
+    tags = ['users']
+)
 async def delete_group(
         group_id: int,
         session: AsyncSession = Depends(database.get_async_session)

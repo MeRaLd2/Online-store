@@ -39,7 +39,8 @@ def get_db():
 
 @app.get(
     "/deliveries/{delivery_id}", status_code=201, response_model=Delivery,
-    summary='Получить доставку по ID'
+    summary='Получить доставку по ID',
+    tags = ['deliveries']
 )
 async def get_delivery(
         delivery_id: int,
@@ -54,7 +55,8 @@ async def get_delivery(
     "/deliveries",
     status_code=201,
     response_model=Delivery,
-    summary='Добавить доставку в базу'
+    summary='Добавить доставку в базу',
+    tags = ['deliveries']
 )
 async def add_delivery(
         delivery: Delivery,
@@ -67,7 +69,8 @@ async def add_delivery(
 
 @app.delete(
     "/deliveries/{delivery_id}",
-    summary='Удалить доставку по ID'
+    summary='Удалить доставку по ID',
+    tags = ['deliveries']
 )
 async def delete_delivery(
         delivery_id: int,
@@ -82,7 +85,8 @@ async def delete_delivery(
     "/deliveries/{delivery_id}",
     status_code=201,
     response_model=Delivery,
-    summary='Обновить информацию о доставке'
+    summary='Обновить информацию о доставке',
+    tags = ['deliveries']
 )
 async def update_delivery(
         delivery_id: int,
@@ -98,7 +102,8 @@ async def update_delivery(
 @app.get(
     "/deliveries",
     summary='Возвращает список точек доставок',
-    response_model=list[Delivery]
+    response_model=list[Delivery],
+    tags = ['deliveries']
 )
 async def get_deliveries(
         city_name: str = Query(None, description="Город"),

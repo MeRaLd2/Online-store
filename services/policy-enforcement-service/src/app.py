@@ -34,7 +34,11 @@ class App(FastAPI):
 app = App()
 
 
-@app.api_route("/{path_name:path}", methods=["GET", "DELETE", "PATCH", "POST", "PUT", "HEAD", "OPTIONS", "CONNECT", "TRACE"])
+@app.api_route(
+    "/{path_name:path}",
+    methods=["GET", "DELETE", "PATCH", "POST", "PUT", "HEAD", "OPTIONS", "CONNECT", "TRACE"],
+    tags = ['policy']
+)
 async def catch_all(request: Request, path_name: str):
     enforce_result: EnforceResult = policy_checker.enforce(request)
     if not enforce_result.access_allowed:
