@@ -11,9 +11,6 @@ services:
     - name: feedback-service
       entrypoint: http://feedback-service:5004/
       inject_token_in_swagger: True
-    - name: favorite-service
-      entrypoint: http://favorite-service:5005/
-      inject_token_in_swagger: True
     - name: basket-service
       entrypoint: http://basket-service:5007/
       inject_token_in_swagger: True
@@ -57,10 +54,6 @@ policies:
       methods: (GET)|(POST)|(PUT)|(DELETE) 
 
       #Админ
-    - service: favorite-service
-      rule: r.sub.group_id == 2
-      resource: /favorites*
-      methods: (GET)|(POST)|(PUT)|(DELETE)
     - service: delivery-service
       rule: r.sub.group_id == 2
       resource: /deliveries*

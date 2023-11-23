@@ -1,7 +1,9 @@
 from mongoengine import Document
-from mongoengine import StringField, IntField
+from mongoengine import StringField, IntField, UUIDField
+from uuid import uuid4
 
 class Feedback(Document):
+    id = UUIDField(primary_key=True, default=uuid4, binary=False)
     title = StringField(required=True,max_length=60)
     product_id = IntField()
     description = StringField()

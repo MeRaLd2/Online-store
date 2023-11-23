@@ -9,5 +9,5 @@ EMAIL_LOGIN=
 
 Для запуска нужно перейти в Deploy:
 ```bash
-docker-compose up -d
+docker compose up -d
 ```

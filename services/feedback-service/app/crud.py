@@ -20,6 +20,7 @@ def add_feedback(feedback: FeedbackCreate) -> models.Feedback:
 def db_model_to_feedback(feedback: models.Feedback) -> Feedback:
     return Feedback(
         id=feedback.id,
+        product_id=feedback.product_id,
         title=feedback.title,
         description=feedback.description
     )

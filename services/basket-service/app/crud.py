@@ -59,11 +59,12 @@ def update_basket(db: Session, basket_id: int, basket_update: Basket):
     return None
 
 def delete_basket(db: Session, basket_id: int):
-    result = db.query(models.Basket) \
-        .filter(models.Basket.id == basket_id) \
-        .delete()
-    db.commit()
-    return result == 1
+    deleted_basket = db.query(models.Basket).filter(models.Basket.id == basket_id).first()
+    if deleted_basket:
+        db.delete(deleted_basket)
+        db.commit()
+        return deleted_basket
+    return None
 
 async def upload_order(db: Session, basket_id: int, msg_prod: MessageProducer):
     basket = get_basket(db, basket_id)

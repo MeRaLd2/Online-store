@@ -1,4 +1,4 @@
-version: '1.0'
+version: "2.0"
 services:
   postgresql:
     image: postgis/postgis:latest
@@ -49,11 +49,9 @@ services:
       context: ../tests
       dockerfile: ./Dockerfile
     depends_on:
-      - favorite-service
       - feedback-service
     environment:
       POSTGRES_DSN: ${POSTGRES_DSN}
-      FAVORITE_SERVICE_ENTRYPOINT: ${FAVORITE_SERVICE_ENTRYPOINT}
       FEEDBACK_SERVICE_ENTRYPOINT: ${FEEDBACK_SERVICE_ENTRYPOINT}   
 
   basket-service:
@@ -88,18 +86,6 @@ services:
       EMAIL_LOGIN: ${EMAIL_LOGIN}
       SMTP_PORT: ${SMTP_PORT}
       SMTP_SERVER: ${SMTP_SERVER}
-
-  favorite-service:
-    build:
-      context: ../services/favorite-service
-      dockerfile: ./Dockerfile
-    ports:
-      - "5005:5005"
-    depends_on:
-      postgresql:
-        condition: service_healthy
-    environment:
-      POSTGRES_DSN: ${POSTGRES_DSN}
 
   feedback-service:
     build:
@@ -152,6 +138,7 @@ services:
     build:
       context: ../services/user-service
       dockerfile: ./Dockerfile
+    restart: unless-stopped    
     ports:
       - "5003:5003"
     depends_on:

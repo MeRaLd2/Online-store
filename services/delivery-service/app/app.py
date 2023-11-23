@@ -75,10 +75,9 @@ async def add_delivery(
 async def delete_delivery(
         delivery_id: int,
         db: Session = Depends(get_db)
-    ):
-    deleted = crud.delete_delivery(db, delivery_id)
-    if deleted:
-        return JSONResponse(status_code=204, content={"message": "Доставка успешно удалена"})
+    ) -> Delivery:
+    if crud.delete_delivery(db, delivery_id):
+        return JSONResponse(status_code=200, content={"message": "Доставка успешно удалена"})
     return JSONResponse(status_code=404, content={"message": "Доставка не найдена"})
 
 @app.put(

@@ -27,5 +27,5 @@ docker build -t "policy-enforcement-service:1.0" .
 ```
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```

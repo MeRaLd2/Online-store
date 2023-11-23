@@ -88,8 +88,11 @@ def update_basket(basket_id: int, basket: schemas.Basket, db: Session = Depends(
     response_model=schemas.Basket,
     tags = ['baskets']
 )
-def delete_basket(basket_id: int, db: Session = Depends(get_db)):
+def delete_basket(
+    basket_id: int,
+    db: Session = Depends(get_db)
+):
     deleted_basket = crud.delete_basket(db, basket_id)
     if deleted_basket is None:
-        raise HTTPException(status_code=404, detail="Набор продукт не найден")
+        raise HTTPException(status_code=404, detail="Набор продуктов не найден")
     return deleted_basket

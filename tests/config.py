@@ -8,12 +8,6 @@ class Config(BaseSettings):
         alias='POSTGRES_DSN'
     )
 
-    FAVORITE_SERVICE_ENTRYPOINT: str = Field(
-        default='http://favorite-service:5005/',
-        env='FAVORITE_SERVICE_ENTRYPOINT',
-        alias='FAVORITE_SERVICE_ENTRYPOINT'
-    )
-
     FEEDBACK_SERVICE_ENTRYPOINT: str = Field(
         default='http://feedback-service:5004/',
         env='FEEDBACK_SERVICE_ENTRYPOINT',

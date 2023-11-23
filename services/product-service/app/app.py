@@ -4,6 +4,7 @@ from app import schemas
 from . import crud, config
 from .database import DB_INITIALIZER
 from sqlalchemy.orm import Session
+from .schemas import Product
 
 cfg: config.Config = config.load_config()
 
@@ -68,8 +69,11 @@ def update_product(product_id: int, product: schemas.ProductUpdate, db: Session 
     response_model=schemas.Product,
     tags=['products']
 )
-def delete_product(product_id: int, db: Session = Depends(get_db)):
+def delete_product(
+    product_id: int,
+    db: Session = Depends(get_db)
+):
     deleted_product = crud.delete_product(db, product_id)
-    if deleted_product is None:
-        raise HTTPException(status_code=404, detail="Продукт не найден")
-    return deleted_product
+    if deleted_product:
+        return deleted_product
+    raise HTTPException(status_code=404, detail="Продукт не найден")

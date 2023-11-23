@@ -26,5 +26,5 @@ docker build -t "delivery-service:1.0" .
 
 для запуска нужно перейти в Deploy:
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
