@@ -3,6 +3,7 @@ from pydantic_core import core_schema
 from pydantic.json_schema import JsonSchemaValue
 from typing import Optional, List, Any, Annotated
 from bson import ObjectId
+from uuid import UUID
 
 
 class ObjectIdPydanticAnnotation:
@@ -47,6 +48,7 @@ class ObjectIdStr(str):
         field_schema.update(format='ObjectId')
 
 class FeedbackBase(BaseModel):
+    product_id: int
     title: str
     description: str
 
@@ -57,5 +59,4 @@ class FeedbackUpdate(FeedbackBase):
     pass
 
 class Feedback(FeedbackBase):
-    id: Annotated[str, ObjectIdPydanticAnnotation]
-
+    id: UUID

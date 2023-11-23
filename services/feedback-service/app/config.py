@@ -9,6 +9,12 @@ class Config(BaseSettings):
         alias='MONGO_DSN'
     )
 
+    PRODUCT_ENTRYPOINT: str = Field(
+        default='http://product-service:5001/',
+        env='PRODUCT_ENTRYPOINT',
+        alias='PRODUCT_ENTRYPOINT'
+    )
+
     class Config:
         env_file = ".env"  # Указываем имя файла .env
         extra = Extra.allow  # Разрешаем дополнительные входные данные

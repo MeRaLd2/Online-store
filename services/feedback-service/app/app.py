@@ -1,10 +1,7 @@
-from fastapi import FastAPI, UploadFile
-from fastapi.responses import JSONResponse, StreamingResponse
-
+from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 import logging
-from typing import List, Annotated
-from uuid import UUID
-
+from typing import List
 from . import config, crud
 from .database import MongoDB
 from .schemas import FeedbackUpdate, FeedbackCreate, Feedback

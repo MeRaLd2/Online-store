@@ -1,3 +1,12 @@
+# Basket service
+Функции:
+ - `post` -- `baskets/` -- `Создает корзину`
+ - `get` -- `/uploads/{basket_id}` -- `Публикует уведомление`
+ - `get` -- `/baskets/{basket_id}` -- `Получить информацию о корзине по id`
+ - `get` -- `baskets/` -- `Получить информацию о всех корзинах`
+ - `put` -- `baskets/{basket_id}` -- `Обновляет корзину по id`
+ - `delete` -- `baskets/{basket_id}` -- `Удаляет корзину по id`
+
 # Инструкция по установке и запуску сервиса
 
 Перед запуском сервиса необходимо установить все зависимости. Для этого выполните следующие шаги:
@@ -11,6 +20,7 @@
 - uvicorn app:app --port 8001 --reload - запуск сервиса с помощью Uvicorn на порту 8001 с автоматической перезагрузкой при изменении кода.
 - ./run.sh - запуск сервиса с помощью скрипта run.sh.
 - Создать файл .env в Basket service и написать в нём POSTGRES_DSN=postgresql://postgres:1023@localhost:5432/postgres
+
 # Для сборки docker образа:
 ```bash
 docker build -t "basket-service:1.0" .
