@@ -24,8 +24,8 @@ RABBITMQ_DEFAULT_PASS=guest
 RABBITMQ_DSN=amqp://guest:guest@rabbitmq//
 
 #Mail
-EMAIL_PASSWORD=sodc nvyx tjvy jigf
-EMAIL_LOGIN=maxmerald@gmail.com
+EMAIL_PASSWORD=
+EMAIL_LOGIN=
 SMTP_PORT=587
 SMTP_SERVER=smtp.gmail.com
 IS_SMPT_SSL=False
@@ -46,7 +46,21 @@ POLICY_SERVICE_ENTRYPOINT=http://policy-enforcement-service:5100/
 POLICIES_CONFIG_PATH=/mnt/policies.yaml
 ```
 
-# Возможно придётся сменить почту в #Mail
+# Необходимо заполнить:
+
+```ini
+EMAIL_PASSWORD=
+EMAIL_LOGIN=
+```
+
+Если почта от yandex -> Заменить в
+```ini
+SMTP_SERVER=smtp.gmail.com
+```
+На
+```ini
+SMTP_SERVER=smtp.yandex.com
+```
 
 3) Запустите docker-compose:
 

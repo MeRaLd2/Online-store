@@ -1,5 +1,9 @@
 # Онлайн-магазин
 
+# Инструкция по развёртыванию
+
+[Click](/deploy/README.md/)
+
 # Сервисы
 
 Basket service | [Click](/services/basket-service/)
