@@ -1,0 +1,54 @@
+# Deploy
+
+## Настройка окружения и запуск
+
+1) Создайте файл .env в текущей директории.
+2) Заполните его следующими данными:
+
+#PostgreSQL
+POSTGRES_DSN=postgresql://postgres:postgres@postgresql:5432/postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_USER=postgres
+POSTGRES_DB=postgres
+POSTGRES_DB_ASYNC_DSN=postgresql+asyncpg://postgres:postgres@postgresql:5432/postgres
+
+#MongoDB
+MONGO_USER=mongo
+MONGO_PASSWORD=mongo
+MONGO_DSN=mongodb://mongo:mongo@mongo:27017/mongo
+
+#RabbitMQ
+RABBITMQ_DEFAULT_USER=guest
+RABBITMQ_DEFAULT_PASS=guest
+RABBITMQ_DSN=amqp://guest:guest@rabbitmq//
+
+#Mail
+EMAIL_PASSWORD=sodc nvyx tjvy jigf
+EMAIL_LOGIN=maxmerald@gmail.com
+SMTP_PORT=587
+SMTP_SERVER=smtp.gmail.com
+IS_SMPT_SSL=False
+
+#Secret Token
+JWT_SECRET=JWT_SECRET
+RESET_PASSWORD_TOKEN_SECRET=RESET_PASSWORD_TOKEN_SECRET
+VERIFICATION_TOKEN_SECRET=VERIFICATION_TOKEN_SECRET
+
+#Path & Entrypoint
+EXCHANGE_NAME_NOTIFICATION=notification
+QUEUE_NAME_NOTIFICATION=notification
+DEFAULT_GROUPS_CONFIG_PATH=/mnt/default-groups.json
+FAVORITE_SERVICE_ENTRYPOINT=http://favorite-service:5005/
+FEEDBACK_SERVICE_ENTRYPOINT=http://feedback-service:5004/
+PRODUCT_ENTRYPOINT=http://product-service:5001/
+POLICY_SERVICE_ENTRYPOINT=http://policy-enforcement-service:5100/
+POLICIES_CONFIG_PATH=/mnt/policies.yaml
+
+
+# Возможно придётся сменить почту в #Mail
+
+3) Запустите docker-compose:
+
+```bash
+docker compose up -d
+```
