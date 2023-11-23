@@ -5,6 +5,7 @@
 1) Создайте файл .env в текущей директории.
 2) Заполните его следующими данными:
 
+```ini
 #PostgreSQL
 POSTGRES_DSN=postgresql://postgres:postgres@postgresql:5432/postgres
 POSTGRES_PASSWORD=postgres
@@ -43,7 +44,7 @@ FEEDBACK_SERVICE_ENTRYPOINT=http://feedback-service:5004/
 PRODUCT_ENTRYPOINT=http://product-service:5001/
 POLICY_SERVICE_ENTRYPOINT=http://policy-enforcement-service:5100/
 POLICIES_CONFIG_PATH=/mnt/policies.yaml
-
+```
 
 # Возможно придётся сменить почту в #Mail
 
