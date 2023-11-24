@@ -41,10 +41,10 @@ async def create_basket(basket: schemas.Basket, db: Session = Depends(get_db)):
     basket = await crud.create_basket(db, basket)
     return basket
 
-@app.get(
+@app.post(
     "/uploads/{basket_id}",
     response_model=schemas.Basket,
-    tags = ['baskets']
+    tags=['baskets']
 )
 async def upload_order(basket_id: int, db: Session = Depends(get_db)):
     uploaded_basket = await crud.upload_order(db, basket_id, message_producer)
